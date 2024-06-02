@@ -1,0 +1,60 @@
+#include<bits/stdc++.h>
+using namespace std;
+vector<int>v[600];
+int visit[600];
+set<int>s;
+void nfa(int node)
+{
+      visit[node]=1;
+      s.insert(node);
+      for(auto d:v[node])
+      {
+          if(visit[d]==0)
+          {
+              nfa(d);
+          }
+      }
+
+}
+int main()
+{
+    char arr[600][3];
+    set<char>state;
+    for(int i=0;i<5;i++)
+    {
+            cin>>arr[i][0]>>arr[i][1]>>arr[i][2];
+            state.insert(arr[i][0]);
+            state.insert(arr[i][2]);
+            if(arr[i][1]=='e')
+            {
+                v[arr[i][0]-65].push_back(arr[i][2]-65);
+            }
+
+    }
+     cout<<"The no of states: "<<state.size()<<endl;
+     cout<<"The states :"<<endl;
+     for(auto d:state) cout<<d<<endl;
+    for(int i=0;i<state.size();i++)
+    {
+        nfa(i);
+        cout<<"Epsilon closure of "<<char(i+65)<<" = { ";
+        for(auto d:s) cout<<char(d+65)<<" ";
+        cout<<"}"<<endl;
+        s.clear();
+        for(int i=0;i<600;i++) visit[i]=0;
+    }
+}
+/*
+A 0 A
+A 1 B
+A e B
+A 1 C
+B e C
+
+A e E
+B e C
+C e D
+D e C
+C e B
+C e A
+*/
