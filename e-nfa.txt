@@ -5,43 +5,44 @@ int visit[600];
 set<int>s;
 void nfa(int node)
 {
-      visit[node]=1;
-      s.insert(node);
-      for(auto d:v[node])
-      {
-          if(visit[d]==0)
-          {
-              nfa(d);
-          }
-      }
+    visit[node]=1;
+    s.insert(node);
+    for(auto d:v[node])
+    {
+        if(visit[d]==0)
+        {
+            nfa(d);
+        }
+    }
 
 }
 int main()
 {
     char arr[600][3];
     set<char>state;
-    for(int i=0;i<5;i++)
+    for(int i=0; i<5; i++)
     {
-            cin>>arr[i][0]>>arr[i][1]>>arr[i][2];
-            state.insert(arr[i][0]);
-            state.insert(arr[i][2]);
-            if(arr[i][1]=='e')
-            {
-                v[arr[i][0]-65].push_back(arr[i][2]-65);
-            }
+        cin>>arr[i][0]>>arr[i][1]>>arr[i][2];
+        state.insert(arr[i][0]);
+        state.insert(arr[i][2]);
+        if(arr[i][1]=='e')
+        {
+            v[arr[i][0]-65].push_back(arr[i][2]-65);
+        }
 
     }
-     cout<<"The no of states: "<<state.size()<<endl;
-     cout<<"The states :"<<endl;
-     for(auto d:state) cout<<d<<endl;
-    for(int i=0;i<state.size();i++)
+    cout<<"The no of states: "<<state.size()<<endl;
+    cout<<"The states :"<<endl;
+    for(auto d:state) cout<<d<<endl;
+
+    for(auto i:state)
     {
-        nfa(i);
-        cout<<"Epsilon closure of "<<char(i+65)<<" = { ";
+        nfa(i-65);
+        cout<<"Epsilon closure of "<<i<<" = { ";
         for(auto d:s) cout<<char(d+65)<<" ";
         cout<<"}"<<endl;
         s.clear();
-        for(int i=0;i<600;i++) visit[i]=0;
+        for(int i=0; i<600; i++) visit[i]=0;
     }
 }
 /*
@@ -51,7 +52,7 @@ A e B
 A 1 C
 B e C
 
-A e E
+A e F
 B e C
 C e D
 D e C
